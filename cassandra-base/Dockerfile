@@ -10,9 +10,9 @@ FROM java:7
 ENV DEBIAN_FRONTEND noninteractive
 
 # Add DataStax sources
-ADD datastax_key /tmp/datastax_key
-RUN apt-key add /tmp/datastax_key
-RUN echo "deb http://debian.datastax.com/community stable main" > /etc/apt/sources.list.d/datastax.list
+RUN apt-get update && apt-get --yes install curl && \
+  curl -L http://debian.datastax.com/debian/repo_key | apt-key add - && \
+  echo "deb http://debian.datastax.com/community stable main" > /etc/apt/sources.list.d/datastax.list 
 
 # Workaround for https://github.com/docker/docker/issues/6345
 RUN ln -s -f /bin/true /usr/bin/chfn
